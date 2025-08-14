@@ -379,8 +379,8 @@ git push origin feature/new-section
 ## 📞 Support & Contact
 
 For questions or support regarding this implementation:
-- Email: harshvardhan@example.com
-- GitHub: [Repository Link]
+- Email: harsh.work212@gmail.com
+- GitHub: [[Repository Link](https://github.com/harshvardhan-212/supreme-group)]
 - Live Demo: [Deployed URL]
 
 ## 📄 License
