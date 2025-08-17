@@ -1,26 +1,378 @@
+/* Updated globals.css with Dark Mode */
 @import "tailwindcss";
 
+/* CSS Custom Properties for Light Mode */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: 210 100% 35%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 210 40% 98%;
+  --secondary-foreground: 222.2 84% 4.9%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96%;
+  --accent-foreground: 222.2 84% 4.9%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 222.2 84% 4.9%;
+  --radius: 0.5rem;
+  
+  /* Supreme Group Brand Colors */
+  --supreme-blue: #0067B1;
+  --supreme-cyan: #00AEEF;
+  --supreme-light-cyan: #F0F9FF;
+  --supreme-gray: #F9FBFF;
+  --supreme-dark-gray: #2D3748;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Dark Mode Variables */
+.dark {
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 210 40% 98%;
+  --primary-foreground: 222.2 84% 4.9%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 212.7 26.8% 83.9%;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Base Styles */
+* {
+  border-color: hsl(var(--border));
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-manrope);
+  font-feature-settings: "rlig" 1, "calt" 1;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Supreme Color Classes for Both Modes */
+.bg-supreme-blue {
+  background-color: var(--supreme-blue);
+}
+
+.bg-supreme-cyan {
+  background-color: var(--supreme-cyan);
+}
+
+.bg-supreme-light-cyan {
+  background-color: var(--supreme-light-cyan);
+}
+
+.bg-supreme-gray {
+  background-color: var(--supreme-gray);
+}
+
+.text-supreme-blue {
+  color: var(--supreme-blue);
+}
+
+.text-supreme-cyan {
+  color: var(--supreme-cyan);
+}
+
+.border-supreme-blue {
+  border-color: var(--supreme-blue);
+}
+
+.border-supreme-cyan {
+  border-color: var(--supreme-cyan);
+}
+
+.hover\:bg-supreme-cyan:hover {
+  background-color: var(--supreme-cyan);
+}
+
+.hover\:text-supreme-cyan:hover {
+  color: var(--supreme-cyan);
+}
+
+/* Dark mode specific styles */
+.dark .bg-supreme-gray {
+  background-color: #1f2937; /* Dark gray instead of light gray */
+}
+
+.dark .text-white {
+  color: #ffffff;
+}
+
+/* Focus Styles */
+:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* Custom Scrollbar with Dark Mode Support */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--supreme-blue);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--supreme-cyan);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: var(--supreme-cyan);
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #374151;
+}
+
+/* Selection Styles */
+::selection {
+  background: var(--supreme-cyan);
+  color: white;
+}
+
+::-moz-selection {
+  background: var(--supreme-cyan);
+  color: white;
+}
+
+/* Custom Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInFromTop2 {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animation Classes */
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out forwards;
+  will-change: opacity, transform;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.6s ease-out forwards;
+  will-change: opacity, transform;
+}
+
+.animate-slide-down {
+  animation: slideDown 0.6s ease-out forwards;
+  will-change: opacity, transform;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.4s ease-out forwards;
+  will-change: opacity, transform;
+}
+
+.animate-in {
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+.slide-in-from-top-2 {
+  animation: slideInFromTop2 0.2s ease-out forwards;
+}
+
+/* Animation delays */
+.animate-delay-100 { animation-delay: 0.1s; }
+.animate-delay-200 { animation-delay: 0.2s; }
+.animate-delay-300 { animation-delay: 0.3s; }
+.animate-delay-500 { animation-delay: 0.5s; }
+
+/* Initial state for animations */
+.animate-fade-in,
+.animate-slide-up,
+.animate-slide-down,
+.animate-scale-in {
+  opacity: 0;
+}
+
+/* Dark mode transitions for smooth theme switching */
+.dark-transition * {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+/* Utility Classes */
+.text-balance {
+  text-wrap: balance;
+}
+
+.text-pretty {
+  text-wrap: pretty;
+}
+
+/* Enhanced focus styles for dark mode */
+.dark :focus-visible {
+  outline: 2px solid var(--supreme-cyan);
+  outline-offset: 2px;
+}
+
+/* Dark mode specific component styles */
+.dark .hero-overlay {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 103, 177, 0.4) 50%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
+}
+
+/* Glow effects for dark mode */
+.dark .glow-on-hover:hover {
+  box-shadow: 0 0 20px rgba(0, 174, 239, 0.3);
+}
+
+.dark .glow-border:hover {
+  border-color: var(--supreme-cyan);
+  box-shadow: 0 0 10px rgba(0, 174, 239, 0.2);
+}
+
+/* Dark mode button styles */
+.dark .btn-primary {
+  background: var(--supreme-blue);
+  border-color: var(--supreme-blue);
+  color: white;
+}
+
+.dark .btn-primary:hover {
+  background: var(--supreme-cyan);
+  border-color: var(--supreme-cyan);
+  box-shadow: 0 4px 20px rgba(0, 174, 239, 0.3);
+}
+
+.dark .btn-secondary {
+  background: rgba(0, 174, 239, 0.1);
+  border-color: var(--supreme-cyan);
+  color: var(--supreme-cyan);
+}
+
+.dark .btn-secondary:hover {
+  background: var(--supreme-cyan);
+  color: white;
+  box-shadow: 0 4px 20px rgba(0, 174, 239, 0.3);
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .animate-fade-in,
+  .animate-slide-up,
+  .animate-slide-down,
+  .animate-scale-in {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .dark {
+    --supreme-cyan: #00BFFF;
+    --supreme-blue: #0080FF;
+  }
+  
+  :root {
+    --supreme-blue: #003D82;
+    --supreme-cyan: #006BB3;
+  }
+}
+
+/* Print styles */
+@media print {
+  .dark {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .dark * {
+    background: transparent !important;
+    color: black !important;
+    border-color: black !important;
+  }
 }
