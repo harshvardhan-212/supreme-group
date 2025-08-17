@@ -4,6 +4,7 @@ import React from 'react';
 import { Logo } from '@/components/icons';
 import { FooterSection } from './FooterSection';
 import { COMPANY_INFO } from '@/lib/constants';
+import { cn } from '@/lib/utils';
 
 const FOOTER_LINKS = {
   applications: [
@@ -38,8 +39,10 @@ interface FooterProps {
 export const Footer: React.FC<FooterProps> = ({ className }) => {
   return (
     <footer 
-      className={(
-        "w-full min-h-[400px] lg:h-[682px]  relative"      )}
+      className={cn(
+        "w-full min-h-[400px] lg:h-[682px] relative",
+        className
+      )}
       role="contentinfo"
       aria-label="Site footer"
     >

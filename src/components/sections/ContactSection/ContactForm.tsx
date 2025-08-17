@@ -23,7 +23,7 @@ const FORM_FIELDS: FormField[] = [
   { id: 'email', label: 'E-mail', type: 'email', required: true, placeholder: 'Enter your email address' },
   { id: 'subject', label: 'Subject', type: 'text', required: true, placeholder: 'Enter subject' },
   { id: 'message', label: 'Message', type: 'textarea', required: true, placeholder: 'Enter your message' },
-];
+] as const;
 
 export const ContactForm: React.FC<ContactFormProps> = ({ 
   className, 
@@ -64,18 +64,18 @@ export const ContactForm: React.FC<ContactFormProps> = ({
   };
 
   const handleChange = (id: keyof ContactFormData, value: string) => {
-    setFormData(prev => ({ ...prev, [id]: value }));
+    setFormData((prev: ContactFormData) => ({ ...prev, [id]: value }));
     
     // Clear error when user starts typing
     if (errors[id]) {
-      setErrors(prev => ({ ...prev, [id]: '' }));
+      setErrors((prev: Partial<ContactFormData>) => ({ ...prev, [id]: '' }));
     }
   };
 
   const handleBlur = (id: keyof ContactFormData) => {
     const error = validateField(id, formData[id]);
     if (error) {
-      setErrors(prev => ({ ...prev, [id]: error }));
+      setErrors((prev: Partial<ContactFormData>) => ({ ...prev, [id]: error }));
     }
   };
 
@@ -126,7 +126,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
             </svg>
           </div>
           <h3 className="text-white text-xl font-semibold mb-2">Message Sent Successfully!</h3>
-          <p className="text-white/80">Thank you for contacting us. We'll get back to you soon.</p>
+          <p className="text-white/80">Thank you for contacting us. We&apos;ll get back to you soon.</p>
         </div>
         <button
           onClick={() => setIsSubmitted(false)}
@@ -145,77 +145,80 @@ export const ContactForm: React.FC<ContactFormProps> = ({
       noValidate
     >
       <div className="flex flex-col items-start w-full space-y-[65px]">
-        {FORM_FIELDS.map((field) => (
-          <div 
-            key={field.id} 
-            className="w-full lg:w-[551px] min-h-[90px]"
-          >
-            <div className="mb-2">
-              <label 
-                htmlFor={field.id}
-                className={cn(
-                  "text-white font-manrope text-lg lg:text-xl font-semibold leading-4",
-                  errors[field.id] && "text-red-400"
-                )}
-              >
-                {field.label}
-                {field.required && <span className="text-red-400 ml-1">*</span>}
-              </label>
-            </div>
-            
-            <div className="mb-2">
-              {field.type === 'textarea' ? (
-                <textarea
-                  id={field.id}
-                  value={formData[field.id]}
-                  onChange={(e) => handleChange(field.id, e.target.value)}
-                  onBlur={() => handleBlur(field.id)}
-                  placeholder={field.placeholder}
-                  required={field.required}
-                  rows={4}
+        {FORM_FIELDS.map((field) => {
+          const fieldId = String(field.id);
+          return (
+            <div 
+              key={fieldId} 
+              className="w-full lg:w-[551px] min-h-[90px]"
+            >
+              <div className="mb-2">
+                <label 
+                  htmlFor={fieldId}
                   className={cn(
-                    "w-full bg-transparent border-0 border-b-2 border-white/40",
-                    "text-white placeholder-white/50 font-manrope text-base",
-                    "focus:border-supreme-cyan focus:outline-none",
-                    "transition-colors duration-200 resize-none",
-                    errors[field.id] && "border-red-400"
+                    "text-white font-manrope text-lg lg:text-xl font-semibold leading-4",
+                    errors[field.id] && "text-red-400"
                   )}
-                  aria-describedby={errors[field.id] ? `${field.id}-error` : undefined}
-                />
-              ) : (
-                <input
-                  type={field.type}
-                  id={field.id}
-                  value={formData[field.id]}
-                  onChange={(e) => handleChange(field.id, e.target.value)}
-                  onBlur={() => handleBlur(field.id)}
-                  placeholder={field.placeholder}
-                  required={field.required}
-                  className={cn(
-                    "w-full bg-transparent border-0 border-b-2 border-white/40",
-                    "text-white placeholder-white/50 font-manrope text-base",
-                    "focus:border-supreme-cyan focus:outline-none",
-                    "transition-colors duration-200",
-                    errors[field.id] && "border-red-400"
-                  )}
-                  aria-describedby={errors[field.id] ? `${field.id}-error` : undefined}
-                />
-              )}
-            </div>
-            
-            <div className="h-5">
-              {errors[field.id] && (
-                <span 
-                  id={`${field.id}-error`}
-                  className="text-red-400 text-sm font-manrope"
-                  role="alert"
                 >
-                  {errors[field.id]}
-                </span>
-              )}
+                  {field.label}
+                  {field.required && <span className="text-red-400 ml-1">*</span>}
+                </label>
+              </div>
+              
+              <div className="mb-2">
+                {field.type === 'textarea' ? (
+                  <textarea
+                    id={fieldId}
+                    value={formData[field.id]}
+                    onChange={(e) => handleChange(field.id, e.target.value)}
+                    onBlur={() => handleBlur(field.id)}
+                    placeholder={field.placeholder}
+                    required={field.required}
+                    rows={4}
+                    className={cn(
+                      "w-full bg-transparent border-0 border-b-2 border-white/40",
+                      "text-white placeholder-white/50 font-manrope text-base",
+                      "focus:border-supreme-cyan focus:outline-none",
+                      "transition-colors duration-200 resize-none",
+                      errors[field.id] && "border-red-400"
+                    )}
+                    aria-describedby={errors[field.id] ? `${fieldId}-error` : undefined}
+                  />
+                ) : (
+                  <input
+                    type={field.type}
+                    id={fieldId}
+                    value={formData[field.id]}
+                    onChange={(e) => handleChange(field.id, e.target.value)}
+                    onBlur={() => handleBlur(field.id)}
+                    placeholder={field.placeholder}
+                    required={field.required}
+                    className={cn(
+                      "w-full bg-transparent border-0 border-b-2 border-white/40",
+                      "text-white placeholder-white/50 font-manrope text-base",
+                      "focus:border-supreme-cyan focus:outline-none",
+                      "transition-colors duration-200",
+                      errors[field.id] && "border-red-400"
+                    )}
+                    aria-describedby={errors[field.id] ? `${fieldId}-error` : undefined}
+                  />
+                )}
+              </div>
+              
+              <div className="h-5">
+                {errors[field.id] && (
+                  <span 
+                    id={`${fieldId}-error`}
+                    className="text-red-400 text-sm font-manrope"
+                    role="alert"
+                  >
+                    {errors[field.id]}
+                  </span>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Submit Button */}

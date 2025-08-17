@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { COMPANY_INFO } from '@/lib/constants';
@@ -13,7 +13,6 @@ interface HeroSectionProps {
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ className }) => {
-  const [isLoaded, setIsLoaded] = useState(false);
   const { resolvedTheme, mounted } = useTheme();
   const lenisScroll = useLenisScroll();
   
@@ -60,8 +59,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className }) => {
 
   useEffect(() => {
     if (!mounted) return;
-    // Set loaded state immediately for faster rendering
-    setIsLoaded(true);
+    // Component is mounted and ready
   }, [mounted]);
 
   const handleScrollToNext = () => {

@@ -1,9 +1,16 @@
 "use client";
 
-import { useEffect, useCallback } from 'react';
+import { useCallback } from 'react';
+
+interface ScrollOptions {
+  duration?: number;
+  offset?: number;
+  easing?: (t: number) => number;
+  immediate?: boolean;
+}
 
 export function useLenisScroll() {
-  const scrollTo = useCallback((target: string | number, options?: any) => {
+  const scrollTo = useCallback((target: string | number, options?: ScrollOptions) => {
     window.dispatchEvent(new CustomEvent('lenis:scrollTo', {
       detail: { target, options }
     }));

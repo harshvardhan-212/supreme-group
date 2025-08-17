@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Manrope, Inter } from "next/font/google";
 import "./globals.css";
-// import { LenisProvider } from "@/components/providers";
+import { LenisProvider } from "@/components/providers";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -70,9 +70,11 @@ export default function RootLayout({
           }}
         />
       </head>
+      <LenisProvider>
       <body className="font-manrope antialiased overflow-x-hidden">
           {children}
       </body>
+      </LenisProvider>
     </html>
   );
 }
