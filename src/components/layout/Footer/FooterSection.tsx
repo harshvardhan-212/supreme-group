@@ -1,7 +1,6 @@
 "use client";
 
 import React from 'react';
-import { cn } from '@/lib/utils';
 
 interface FooterSectionProps {
   title: string;
@@ -15,7 +14,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
   className 
 }) => {
   return (
-    <div className={cn("flex flex-col items-start gap-5", className)}>
+    <div className={("flex flex-col items-start gap-5" )}>
       <h3 className="text-black font-manrope text-sm lg:text-base font-bold leading-normal tracking-[0.16px] uppercase">
         {title}
       </h3>

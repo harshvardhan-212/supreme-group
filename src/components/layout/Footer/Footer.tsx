@@ -3,7 +3,6 @@
 import React from 'react';
 import { Logo } from '@/components/icons';
 import { FooterSection } from './FooterSection';
-import { cn } from '@/lib/utils';
 import { COMPANY_INFO } from '@/lib/constants';
 
 const FOOTER_LINKS = {
@@ -39,10 +38,8 @@ interface FooterProps {
 export const Footer: React.FC<FooterProps> = ({ className }) => {
   return (
     <footer 
-      className={cn(
-        "w-full min-h-[400px] lg:h-[682px]  relative",
-        className
-      )}
+      className={(
+        "w-full min-h-[400px] lg:h-[682px]  relative"      )}
       role="contentinfo"
       aria-label="Site footer"
     >

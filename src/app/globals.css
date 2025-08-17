@@ -72,10 +72,6 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-html {
-  scroll-behavior: auto !important;
-}
-
 /* Supreme Color Classes for Both Modes */
 .bg-supreme-blue {
   background-color: var(--supreme-blue);
@@ -342,7 +338,6 @@ html {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
   
   .animate-fade-in,

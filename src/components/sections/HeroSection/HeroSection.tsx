@@ -18,7 +18,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className }) => {
   const lenisScroll = useLenisScroll();
   
   // Declare animation hooks at the component top level
-  // and conditionally use them based on mounted state
+  // and safely handle the not-yet-mounted state
   const containerAnimation = useScrollAnimationClasses('animate-fade-in', {
     threshold: 0.2,
     triggerOnce: true,
@@ -68,19 +68,23 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className }) => {
     if (scrollToElement) scrollToElement('#services');
   };
 
-  // Show a placeholder during server-side rendering, but switch to real content
-  // as soon as we're mounted on the client
-  if (!mounted) {
-    return (
-      <div className="w-full h-[60vh] sm:h-[70vh] md:h-[80vh] lg:h-[925px] mt-16 sm:mt-20 bg-supreme-gray dark:bg-gray-900 animate-pulse" />
-    );
-  }
-
+  // We need to extract refs before conditional rendering to avoid DOM manipulation errors
   const { containerRef } = animationRefs;
   const { ref: taglineRef } = taglineAnimation;
   const { ref: titleRef } = titleAnimation;
   const { ref: scrollIndicatorRef } = scrollIndicatorAnimation;
   const isDark = resolvedTheme === 'dark';
+
+  // Show a placeholder during server-side rendering, but switch to real content
+  // as soon as we're mounted on the client
+  if (!mounted) {
+    return (
+      <section 
+        className="w-full h-[60vh] sm:h-[70vh] md:h-[80vh] lg:h-[925px] mt-16 sm:mt-20 bg-supreme-gray dark:bg-gray-900 animate-pulse" 
+        id="home"
+      />
+    );
+  }
 
   return (
     <section 

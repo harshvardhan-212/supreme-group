@@ -1,3 +1,3 @@
-export { HeroSection } from './HeroSection';
-export { ServicesSection } from './ServicesSection';
-export { ContactSection } from './ContactSection';
+export { HeroSection } from './HeroSection/HeroSection';
+export { ServicesSection } from './ServicesSection/ServicesSection';
+export { ContactSection } from './ContactSection/ContactSection';

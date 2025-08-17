@@ -11,7 +11,7 @@ interface UseScrollAnimationOptions {
 }
 
 interface UseScrollAnimationReturn {
-  ref: React.RefObject<HTMLElement>;
+  ref: React.RefObject<HTMLElement | null>;
   isVisible: boolean;
   hasBeenVisible: boolean;
   entry?: IntersectionObserverEntry;
@@ -31,7 +31,7 @@ export function useScrollAnimation(
   const [isVisible, setIsVisible] = useState(initialInView);
   const [hasBeenVisible, setHasBeenVisible] = useState(initialInView);
   const [entry, setEntry] = useState<IntersectionObserverEntry>();
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLElement | null>(null);
 
   const handleIntersection = useCallback(
     (entries: IntersectionObserverEntry[]) => {
@@ -94,20 +94,33 @@ export function useScrollAnimationClasses(
   const [isAnimated, setIsAnimated] = useState(false);
 
   useEffect(() => {
+    // Add a check to prevent running the effect when component is unmounting
+    if (options.skip) return;
+    
+    // Add safety check for element existence
     const element = ref.current;
     if (!element) return;
 
-    if (isVisible && !isAnimated) {
-      // Use requestAnimationFrame for smoother animation application
-      requestAnimationFrame(() => {
-        element.classList.add(animationClass);
-        setIsAnimated(true);
-      });
-    } else if (!isVisible && !options.triggerOnce && isAnimated) {
-      element.classList.remove(animationClass);
-      setIsAnimated(false);
-    }
-  }, [isVisible, animationClass, isAnimated, options.triggerOnce]);
+    // Use a small timeout to ensure the DOM has stabilized
+    const timer = setTimeout(() => {
+      if (isVisible && !isAnimated) {
+        // Use requestAnimationFrame for smoother animation application
+        requestAnimationFrame(() => {
+          if (element && element.classList) {
+            element.classList.add(...animationClass.split(' '));
+            setIsAnimated(true);
+          }
+        });
+      } else if (!isVisible && !options.triggerOnce && isAnimated) {
+        if (element && element.classList) {
+          element.classList.remove(...animationClass.split(' '));
+          setIsAnimated(false);
+        }
+      }
+    }, 0);
+
+    return () => clearTimeout(timer);
+  }, [isVisible, animationClass, isAnimated, options.triggerOnce, options.skip, ref]);
 
   return { ref, isVisible, hasBeenVisible, isAnimated };
 }

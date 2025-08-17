@@ -2,22 +2,28 @@
 
 import React, { useState, useEffect } from 'react';
 import { Logo } from '@/components/icons';
-// import { ContactButton } from './ContactButton';
 import { LanguageSelector } from './LanguageSelector';
 import { ThemeToggle } from './ThemeToggle';
-import { cn } from '@/lib/utils';
+import { ContactButton } from './ContactButton';
 import { useTheme } from '@/hooks/useTheme';
 
 interface HeaderProps {
   className?: string;
 }
 
-export const Header: React.FC<HeaderProps> = ({ className }) => {
+export const Header: React.FC<HeaderProps> = ({ className = "" }) => {
   console.log('Header rendered');
   const [isScrolled, setIsScrolled] = useState(false);
-  const { resolvedTheme, mounted } = useTheme();
+  const [isMounted, setIsMounted] = useState(false);
+  const { resolvedTheme } = useTheme();
 
   useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isMounted) return;
+
     let ticking = false;
 
     const handleScroll = () => {
@@ -31,34 +37,27 @@ export const Header: React.FC<HeaderProps> = ({ className }) => {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    // Set initial state
+    setIsScrolled(window.scrollY > 10);
+    
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isMounted]);
 
-  // Always render the same header structure, use loading styles until mounted
   const isDark = resolvedTheme === 'dark';
+
+  // Static classes that don't change between server and client
+  const baseClasses = "fixed top-0 z-50 w-full transition-all duration-300 flex items-center justify-between px-4 sm:px-6 lg:px-8";
+  
+  // Dynamic classes based on scroll - only apply after mount
+  const scrollClasses = isMounted 
+    ? isScrolled 
+      ? "h-16 sm:h-20 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm shadow-md"
+      : "h-20 sm:h-24 bg-transparent"
+    : "h-20 sm:h-24 bg-transparent"; // Default for SSR
 
   return (
     <header 
-      className={cn(
-        "fixed top-0 z-50 w-full transition-all duration-300",
-        "h-16 sm:h-20",
-        "bg-supreme-gray/95", // Always include base styles for SSR consistency
-        "flex items-center justify-between",
-        "px-4 sm:px-8 lg:px-[134px] lg:pr-[150px]",
-        mounted && [
-          "backdrop-blur-[47px]",
-          // Light mode styles
-          !isDark && [
-            isScrolled && "shadow-sm border-b border-gray-200/50"
-          ],
-          // Dark mode styles
-          isDark && [
-            "bg-gray-900/95 border-b border-gray-800/50",
-            isScrolled && "shadow-lg shadow-black/10 border-gray-700/50"
-          ]
-        ],
-        className
-      )}
+      className={`${baseClasses} ${scrollClasses} ${className}`}
       role="banner"
       aria-label="Site header"
     >
@@ -66,7 +65,7 @@ export const Header: React.FC<HeaderProps> = ({ className }) => {
       <div className="flex-shrink-0" aria-label="Supreme Group Home">
         <Logo 
           className="w-20 h-7 sm:w-32 sm:h-9 lg:w-[146px] lg:h-[42px]" 
-          variant={mounted && isDark ? 'white' : 'default'}
+          variant={isMounted && isDark ? 'white' : 'default'}
         />
       </div>
 
@@ -75,12 +74,12 @@ export const Header: React.FC<HeaderProps> = ({ className }) => {
         className="flex items-center gap-2 sm:gap-4 lg:gap-10"
         aria-label="Header navigation"
       >
-        {/* Theme Toggle Button - Always render but handle visibility inside */}
+        {/* Theme Toggle Button */}
         <ThemeToggle className="mx-1" />
-        {/* Language Selector - Always render but handle visibility inside */}
+        {/* Language Selector */}
         <LanguageSelector />
         {/* Contact Button */}
-        {/* <ContactButton /> */}
+        <ContactButton />
       </nav>
     </header>
   );
