@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Manrope, Inter } from "next/font/google";
 import "./globals.css";
 import { LenisProvider } from "@/components/providers";
-
+import { Analytics } from "@vercel/analytics/next"
 const manrope = Manrope({
   variable: "--font-manrope",
   subsets: ["latin"],
@@ -70,6 +70,7 @@ export default function RootLayout({
           }}
         />
       </head>
+      <Analytics/> 
       <LenisProvider>
       <body className="font-manrope antialiased overflow-x-hidden">
           {children}
