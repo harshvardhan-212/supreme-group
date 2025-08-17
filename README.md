@@ -377,7 +377,7 @@ git push origin feature/new-section
 For questions or support regarding this implementation:
 - Email: harsh.work212@gmail.com
 - GitHub: [[Repository Link](https://github.com/harshvardhan-212/supreme-group)]
-- Live Demo: [Deployed URL]
+- Live Demo: [[Deployed URL](https://supreme-group-vygm.vercel.app/)]
 
 ## 📄 License
 
