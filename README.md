@@ -166,7 +166,7 @@ App
 #### Layout Components
 - **Header**: Navigation with mobile menu and smooth scroll links
 - **Footer**: Contact info, social links, and copyright
-- **Navigation**: Mobile-responsive navigation with GSAP animations
+- **Navigation**: Mobile-responsive navigation
 
 #### Section Components
 - **Hero**: Landing section with animated elements and call-to-action
@@ -224,14 +224,10 @@ App
 ## 🎬 Animation Strategy
 
 ### GSAP Implementation
-- **ScrollTrigger**: Animations triggered by scroll position
-- **Timeline**: Coordinated sequences of animations
 - **Morphing**: Smooth shape transitions
 - **Performance**: Hardware-accelerated transforms
 
 ### Animation Types
-1. **Entrance Animations**: Fade in, slide up, scale animations
-2. **Scroll Animations**: Parallax effects, reveal animations
 3. **Hover Interactions**: Button hovers, card elevations
 4. **Page Transitions**: Smooth transitions between sections
 
